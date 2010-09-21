@@ -1,0 +1,36 @@
+This module provides the ability to read Pegasus Mail Addressbook (*.PMR) files.
+
+The PMR file format appears to be a simple dump of fixed width text fields 
+padded and delimited by null (0x00) bytes. The fields widths are as follows:
+    Header (128)
+    -name 28
+    -pad 100
+    Entries (n*458)
+    -pad 2
+    -name 40
+    -company 40
+    -key 12
+    -street 60
+    -post 60
+    -phone 24
+    -fax 24
+    -notes 80
+    -email 100
+    -pad 4
+    -image 9
+    -pad 3
+
+This module has been tested with and requires at least Python 2.6.
+
+The module when invoked by itself will convert a PMR file to a CSV file suitable 
+for importing into Google Contacts.
+
+Usage:
+c:\Python26\python.exe path\to\pmr.py path\to\addrbook.PMR > output.csv
+
+The core class of the module is PMRFile. PMRFile should be instantiated with
+the path to a PMR file or an open file object. When instantiated it reads the 
+addressbook name from the header and populates the name property. PMRFile 
+objects are iterables over the addressbook entries. Each entry is a namedtuple
+with one extra method, iteritems(), similar in use to like named method on 
+Dictionary objects. Please see the pmr2google() method for an example of use.
